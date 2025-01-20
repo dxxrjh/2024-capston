@@ -1,0 +1,11 @@
+openapi: 3.0.0
+info:
+    title: FOREST API
+    description: FOREST API 서버 문서
+    version: 1.0.0
+servers:
+    - url: http://localhost:3000 # 추후 수정 필요
+      description: Local server
+# 예시
+paths:
+    /home/
