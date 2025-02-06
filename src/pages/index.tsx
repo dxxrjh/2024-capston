@@ -9,7 +9,8 @@ export default function Home() {
   const testButtonClick = () => {
     Router.push("/main")
   }
-  
+
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -20,6 +21,7 @@ export default function Home() {
 
   return (
     <div>
+      console.log(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
       <GoogleLoginWrapper />
       {user ? <p>환영합니다, {user.name}님!</p> : <p>로그인 필요</p>}
     </div>

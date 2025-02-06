@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const GoogleLoginButton = () => {
   const [user, setUser] = useState(null);
+  //const clientID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
   // ✅ Authorization Code 요청
   const login = useGoogleLogin({
@@ -12,8 +13,8 @@ const GoogleLoginButton = () => {
       console.log("Authorization Code:", codeResponse.code);
 
       try {
-        const res = await axios.post("http://localhost:4000/auth/google", { 
-          code: codeResponse.code 
+        const res = await axios.post("http://localhost:4000/auth/google", {
+          code: codeResponse.code
         });
 
         localStorage.setItem("jwt", res.data.token);
@@ -48,7 +49,7 @@ const GoogleLoginButton = () => {
 
 export default function GoogleLoginWrapper() {
   return (
-    <GoogleOAuthProvider clientId="702456507747-0l5t6008oh805kii9kob01f4jhkelsg7.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
       <GoogleLoginButton />
     </GoogleOAuthProvider>
   );
