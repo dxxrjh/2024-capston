@@ -2,18 +2,25 @@ import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useState } from "react";
 
-const GoogleLoginButton = () => {
-  const [user, setUser] = useState(null);
-  //const clientID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+const GoogleLoginButton = ({ setUser }: { setUser: (user: any) => void }) => {
+  const clientID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
+  if (!clientID) {
+    console.error("NEXT_PUBLIC_GOOGLE_CLIENT_ID가 설정되지 않았습니다.");
+    return null;
+  } else {
+    console.log("clientID 있음");
+  }
+
 
   // ✅ Authorization Code 요청
   const login = useGoogleLogin({
-    flow: "auth-code", // Authorization Code Flow 활성화
+    flow: "auth-code",
     onSuccess: async (codeResponse) => {
-      console.log("Authorization Code:", codeResponse.code);
+      console.log("~~Authorization Code:", codeResponse.code);
 
       try {
-        const res = await axios.post("http://localhost:4000/auth/google", {
+        const res = await axios.post("http://localhost:3001/auth/google", {
           code: codeResponse.code
         });
 
@@ -27,30 +34,15 @@ const GoogleLoginButton = () => {
   });
 
   return (
-    <div>
-      {user ? (
-        <div>
-          <p>환영합니다, {user.name}님!</p>
-          <button
-            onClick={() => {
-              localStorage.removeItem("jwt");
-              setUser(null);
-            }}
-          >
-            로그아웃
-          </button>
-        </div>
-      ) : (
-        <button onClick={() => login()}>Google 로그인</button>
-      )}
-    </div>
+    <button onClick={() => login()}>Google 로그인</button>
   );
 };
 
-export default function GoogleLoginWrapper() {
+export default function GoogleLoginWrapper({ setUser }: { setUser: (user: any) => void }) {
+  console.log("GoogleOAuthProvider Client ID:", process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID); // 👀 콘솔 확인
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-      <GoogleLoginButton />
+      <GoogleLoginButton setUser={setUser} />
     </GoogleOAuthProvider>
   );
 }

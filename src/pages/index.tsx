@@ -10,19 +10,23 @@ export default function Home() {
     Router.push("/main")
   }
 
-
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      const decoded = JSON.parse(atob(token.split(".")[1]));
-      setUser(decoded);
+      try {
+        // 토큰 파싱 제대로 됐는지 확인
+        const decoded = JSON.parse(atob(token.split(".")[1]));
+        setUser(decoded);
+      } catch (error) {
+        console.error("JWT 디코딩 실패", error);
+        localStorage.removeItem("jwt"); // 잘못된 토큰 삭제
+      }
     }
   }, []);
 
   return (
     <div>
-      console.log(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
-      <GoogleLoginWrapper />
+      <GoogleLoginWrapper setUser={setUser}/>
       {user ? <p>환영합니다, {user.name}님!</p> : <p>로그인 필요</p>}
     </div>
   );
