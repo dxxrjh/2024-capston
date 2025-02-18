@@ -1,20 +1,20 @@
 import GoogleLoginWrapper from "@/components/GoogleLoginButton";
-import Image from "next/image";
-import Router from "next/router";
 import { useEffect, useState } from "react";
+import Router from "next/router";
 
 export default function Home() {
   const [user, setUser] = useState(null);
 
+  // 페이지 이동 버튼
   const testButtonClick = () => {
-    Router.push("/main")
-  }
+    Router.push("/main");
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
       try {
-        // 토큰 파싱 제대로 됐는지 확인
+        // JWT 토큰을 디코딩해서 사용자 정보를 추출
         const decoded = JSON.parse(atob(token.split(".")[1]));
         setUser(decoded);
       } catch (error) {
@@ -26,10 +26,12 @@ export default function Home() {
 
   return (
     <div>
-      <GoogleLoginWrapper setUser={setUser}/>
+      <GoogleLoginWrapper />
       {user ? <p>환영합니다, {user.name}님!</p> : <p>로그인 필요</p>}
+      {/* 로그인된 경우 사용자 이름 표시 */}
     </div>
   );
+}
 
   // return (
 
@@ -70,4 +72,4 @@ export default function Home() {
   //   </div>
   // </div>
   // );
-}
+

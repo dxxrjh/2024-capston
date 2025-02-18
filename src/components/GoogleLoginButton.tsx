@@ -1,52 +1,28 @@
-import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const GoogleLoginButton = ({ setUser }: { setUser: (user: any) => void }) => {
+const GoogleLoginButton = () => {
   const clientID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-  const router = useRouter()
+  const redirectURI = "http://localhost:3000/auth/google/callback"; // 리디렉션 URI
 
   if (!clientID) {
     console.error("NEXT_PUBLIC_GOOGLE_CLIENT_ID가 설정되지 않았습니다.");
     return null;
-  } else {
-    console.log("clientID 있음");
   }
 
-
-  // ✅ Authorization Code 요청
-  const login = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: async (codeResponse) => {
-      console.log("~~Authorization Code:", codeResponse.code);
-
-      try {
-        const res = await axios.post("http://localhost:3001/auth/google", {
-          code: codeResponse.code
-        });
-
-        localStorage.setItem("jwt", res.data.token);
-        setUser(res.data.user);
-
-        router.push("/auth/google/callback")
-      } catch (error) {
-        console.error("서버 인증 실패", error);
-      }
-    },
-    onError: () => console.log("로그인 실패"),
-  });
+  // 구글 로그인 페이지 URL 생성
+  const googleLoginPage = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=code&scope=email profile`;
 
   return (
-    <button onClick={() => login()}>Google 로그인</button>
+    <a href={googleLoginPage}>
+      <button>Google 로그인</button>
+    </a>
   );
 };
 
-export default function GoogleLoginWrapper({ setUser }: { setUser: (user: any) => void }) {
-  console.log("GoogleOAuthProvider Client ID:", process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID); // 👀 콘솔 확인
+export default function GoogleLoginWrapper() {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-      <GoogleLoginButton setUser={setUser} />
+      <GoogleLoginButton />
     </GoogleOAuthProvider>
   );
 }
