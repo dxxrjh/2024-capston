@@ -1,9 +1,11 @@
 import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const GoogleLoginButton = ({ setUser }: { setUser: (user: any) => void }) => {
   const clientID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const router = useRouter()
 
   if (!clientID) {
     console.error("NEXT_PUBLIC_GOOGLE_CLIENT_ID가 설정되지 않았습니다.");
@@ -26,6 +28,8 @@ const GoogleLoginButton = ({ setUser }: { setUser: (user: any) => void }) => {
 
         localStorage.setItem("jwt", res.data.token);
         setUser(res.data.user);
+
+        router.push("/auth/google/callback")
       } catch (error) {
         console.error("서버 인증 실패", error);
       }
