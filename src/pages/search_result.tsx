@@ -1,15 +1,9 @@
-
-
-
-export default function Search_result() {
-
+export default function SearchResult() {
 
 
   return (
     <div>
-      dds
+      검색 결과 페이지
     </div>
   );
-
-
 }

@@ -3,22 +3,20 @@ import { useRouter } from "next/router";
 
 const Header = () => {
   const router = useRouter()
-  
   const chatbotButtonClick = () => {
     router.push("/")
     //챗봇페이지 구현 + 연결 필요요
   }
-
   const logoButtonClick = () => {
     router.push("/main")
   }
 
-  const logoutButtonClick = () => {
-    router.push("/")
-    //로그인 쿠키 삭제
-  }
 
   const mypageButtonClick = () => {
+    router.push("/mypage/modify")
+  }
+
+  const logoutButtonClick = () => {
     router.push("/mypage/modify")
   }
 
@@ -49,20 +47,8 @@ const Header = () => {
         </button>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
     </div>
   );
-
 }
 
 export default Header;
