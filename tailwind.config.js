@@ -11,6 +11,9 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        'custom': '0px 4px 3px rgba(0, 0, 0, 0.3)', // 사용자 정의 그림자
+      },
     },
   },
   plugins: [],
