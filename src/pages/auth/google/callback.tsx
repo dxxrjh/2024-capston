@@ -1,13 +1,16 @@
 import { useRouter } from "next/router";
 
 
-const GoogleCallback = () => {
 
-  const router = useRouter()
 
-  router.push("/")
+export default function GoogleCallback() {
+  return (
 
-  return;
+    <h1>
+      로그인 성공~~~~
+    </h1>
+  );
+
+
+
 };
-
-export default GoogleCallback;
