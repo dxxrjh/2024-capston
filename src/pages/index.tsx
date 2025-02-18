@@ -1,13 +1,14 @@
 import GoogleLoginWrapper from "@/components/GoogleLoginButton";
 import { useEffect, useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const [user, setUser] = useState(null);
+  const router = useRouter();
 
   // 페이지 이동 버튼
   const testButtonClick = () => {
-    Router.push("/main");
+    router.push("/main");
   };
 
   useEffect(() => {

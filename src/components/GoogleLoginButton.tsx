@@ -1,21 +1,30 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useState, useEffect } from "react";
-import Router from "next/router";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+
 
 const GoogleLoginButton = () => {
   const clientID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const redirectURI = "http://localhost:3000/auth/google/callback"; // 리디렉션 URI
   const [isLogin, setIsLogin] = useState(false);
   const [userName, setUserName] = useState("");
+  const router = useRouter();
 
   // 로그인 상태 확인
   useEffect(() => {
     const token = Cookies.get("jwt"); // 쿠키에서 jwt 토큰 확인
+    console.log("로그인 버튼에서 토큰: " + token);
+
     if (token) {
       const decoded = JSON.parse(atob(token.split(".")[1])); // JWT 토큰 디코딩
       setUserName(decoded.name);
+      console.log("사용자 이름: " + Cookies.get("username"));
       setIsLogin(true);
+      console.log("상태: 로그인");
+    } else {
+      setIsLogin(false);
+      setUserName("");
     }
   }, []);
 
@@ -24,10 +33,11 @@ const GoogleLoginButton = () => {
 
   // 로그아웃 처리
   const handleLogout = () => {
+    console.log("구글 로그아웃 실행");
     Cookies.remove("jwt"); // 쿠키에서 jwt 삭제
     setIsLogin(false);
     setUserName("");
-    Router.push("/"); // 홈 페이지로 리다이렉트
+    router.push("/"); // 홈 페이지로 리다이렉트
   };
 
   if (!clientID) {
