@@ -22,7 +22,8 @@ const GoogleLoginButton = () => {
       console.log("사용자 이름: " + Cookies.get("username"));
       setIsLogin(true);
       console.log("상태: 로그인");
-    } else {
+    } 
+    else {
       setIsLogin(false);
       setUserName("");
     }
