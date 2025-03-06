@@ -17,7 +17,8 @@ const Header = () => {
   }
 
   const logoutButtonClick = () => {
-    router.push("/mypage/modify")
+    router.push("/")
+    //로그아웃 구현
   }
 
 

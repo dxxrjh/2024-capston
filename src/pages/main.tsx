@@ -16,6 +16,10 @@ export default function Main() {
     setIsCategoryPopupOpen(!isCategoryPopupOpen);
   }
 
+  const deleteClick = () => {
+    
+  }
+
 
   return (
     <div>
